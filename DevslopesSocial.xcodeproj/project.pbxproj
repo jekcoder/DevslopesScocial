@@ -14,6 +14,11 @@
 		81BD98981DE370D3003F5F4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81BD98971DE370D3003F5F4F /* Assets.xcassets */; };
 		81BD989B1DE370D3003F5F4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81BD98991DE370D3003F5F4F /* LaunchScreen.storyboard */; };
 		81BD98A31DE37326003F5F4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81BD98A21DE37326003F5F4F /* GoogleService-Info.plist */; };
+		81F9CDAE1DE4C7AE00163D6B /* FancyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9CDAD1DE4C7AE00163D6B /* FancyView.swift */; };
+		81F9CDB31DE4C90C00163D6B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9CDB21DE4C90C00163D6B /* Constants.swift */; };
+		81F9CDB51DE4CC1000163D6B /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9CDB41DE4CC1000163D6B /* RoundButton.swift */; };
+		81F9CDB71DE4CEA900163D6B /* FancyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9CDB61DE4CEA900163D6B /* FancyField.swift */; };
+		81F9CDB91DE4D01300163D6B /* FancyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9CDB81DE4D01300163D6B /* FancyButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +34,11 @@
 		81BD989C1DE370D3003F5F4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81BD98A21DE37326003F5F4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81F9CDA81DE37B3200163D6B /* DevslopesSocial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DevslopesSocial.entitlements; sourceTree = "<group>"; };
+		81F9CDAD1DE4C7AE00163D6B /* FancyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyView.swift; sourceTree = "<group>"; };
+		81F9CDB21DE4C90C00163D6B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		81F9CDB41DE4CC1000163D6B /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		81F9CDB61DE4CEA900163D6B /* FancyField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyField.swift; sourceTree = "<group>"; };
+		81F9CDB81DE4D01300163D6B /* FancyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +75,7 @@
 		81BD988F1DE370D3003F5F4F /* DevslopesSocial */ = {
 			isa = PBXGroup;
 			children = (
+				81F9CDB11DE4C8F300163D6B /* Uitilities */,
 				81F9CDAC1DE390D700163D6B /* Model */,
 				81F9CDAB1DE390CA00163D6B /* View */,
 				81F9CDAA1DE390A800163D6B /* Controller */,
@@ -98,6 +109,10 @@
 		81F9CDAB1DE390CA00163D6B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81F9CDAD1DE4C7AE00163D6B /* FancyView.swift */,
+				81F9CDB41DE4CC1000163D6B /* RoundButton.swift */,
+				81F9CDB61DE4CEA900163D6B /* FancyField.swift */,
+				81F9CDB81DE4D01300163D6B /* FancyButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -107,6 +122,14 @@
 			children = (
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		81F9CDB11DE4C8F300163D6B /* Uitilities */ = {
+			isa = PBXGroup;
+			children = (
+				81F9CDB21DE4C90C00163D6B /* Constants.swift */,
+			);
+			name = Uitilities;
 			sourceTree = "<group>";
 		};
 		930EA1672B93F2F0A3912901 /* Frameworks */ = {
@@ -256,8 +279,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81F9CDB71DE4CEA900163D6B /* FancyField.swift in Sources */,
 				81BD98931DE370D3003F5F4F /* SignInVC.swift in Sources */,
+				81F9CDB51DE4CC1000163D6B /* RoundButton.swift in Sources */,
+				81F9CDB91DE4D01300163D6B /* FancyButton.swift in Sources */,
 				81BD98911DE370D3003F5F4F /* AppDelegate.swift in Sources */,
+				81F9CDAE1DE4C7AE00163D6B /* FancyView.swift in Sources */,
+				81F9CDB31DE4C90C00163D6B /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
