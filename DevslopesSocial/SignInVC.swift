@@ -10,14 +10,35 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import Firebase
+import SwiftKeychainWrapper
 
-class SignInVC: UIViewController {
 
+class SignInVC: UIViewController, UITextFieldDelegate {
+
+    @IBOutlet weak var emailField: FancyField!
+    
+    @IBOutlet weak var pwdField: FancyField!
+    
+    var activeTextField = UITextField()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         
+        emailField.delegate = self
+        pwdField.delegate = self
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if let _ = KeychainWrapper.standard.string(forKey: KEY_UID) {
+            
+            performSegue(withIdentifier: "goToFeed", sender: nil)
+            
+        }
+
     }
 
 
@@ -57,11 +78,84 @@ class SignInVC: UIViewController {
             } else {
                 
                 print("Successfully authentiction with Firebase")
+                if let user = user {
+                    
+                    self.completeSignIn(id: user.uid)
+                }
             }
         })
-        
     }
 
+    @IBAction func signInTapped(_ sender: FancyButton) {
+        
+        self.view.frame.origin.y = 0
+        
+        activeTextField.resignFirstResponder()
+        
+        if let email = emailField.text, let pwd = pwdField.text {
+            
+            FIRAuth.auth()?.signIn(withEmail: email, password: pwd, completion: { (user, error) in
+                
+                if error == nil {
+                    
+                    print("Email user authentication with Firebase")
+                    if let user = user {
+                        
+                        self.completeSignIn(id: user.uid)
+                    }
 
-}
+                    
+                } else {
+                    
+                    FIRAuth.auth()?.createUser(withEmail: email, password: pwd, completion: { (user, error) in
+                        
+                        if error != nil {
+                            
+                            print("Unable to authenticate with Firebase using email - \(error)")
+                            
+                        } else {
+                            
+                            print("Successfull authentication with Firebase")
+                            if let user = user {
+                                
+                                self.completeSignIn(id: user.uid)
+                            }
+                            
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    func completeSignIn(id:String) {
+        
+        KeychainWrapper.standard.set(id, forKey:KEY_UID)
+        performSegue(withIdentifier: "goToFeed", sender: nil)        
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        activeTextField = textField
+        
+        if textField.tag == 2 {
+            
+            self.view.frame.origin.y = PWD_VIEW_YPOS
+            
+        } else {
+            
+            self.view.frame.origin.y = EMAIL_VIEW_YPOS
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        self.view.frame.origin.y = VIEW_ORIGIN
+        
+        textField.resignFirstResponder()
+
+        return true
+    }
+    
+ }
 
