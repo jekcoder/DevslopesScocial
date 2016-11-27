@@ -98,7 +98,6 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
             
         } else {
             
-            imageSelected = false
             print("John: a vild image was not selected")
         }
         imagePicker.dismiss(animated: true, completion: nil)
@@ -124,6 +123,11 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
             return
         }
         
+        if captionField.isFirstResponder {
+            
+            captionField.resignFirstResponder()
+        }
+        
         if let imgData = UIImageJPEGRepresentation(img, 0.2) {
             
             let imgUid = NSUUID().uuidString
@@ -140,12 +144,31 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
                     
                     print("John: Sucessfully uploaded image to Firebase")
                     let downloadURL = metadata?.downloadURL()?.absoluteString
+                    if let url = downloadURL {
+                        self.postToFirebase(imageUrl: url)
+                    }
                 }
             }
-            
-            
-            
         }
+    }
+    
+    
+    func postToFirebase(imageUrl: String) {
+        
+        let post: Dictionary<String, AnyObject> = [
+        
+        "caption":captionField.text as AnyObject,
+        "imageUrl":imageUrl as AnyObject,
+        "likes":0 as AnyObject
+        ]
+            
+        let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+        firebasePost.setValue(post)
+        
+        self.captionField.text = ""
+        self.imageSelected = false
+        self.imageAdd.image = UIImage(named: "add-image")
+        tableView.reloadData()
         
         
     }
