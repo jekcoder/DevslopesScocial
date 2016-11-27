@@ -11,16 +11,17 @@ import Firebase
 import SwiftKeychainWrapper
 
 class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIImagePickerControllerDelegate,
-              UINavigationControllerDelegate  {
+              UINavigationControllerDelegate, UITextFieldDelegate  {
 
     @IBOutlet weak var tableView:UITableView!
-    
     @IBOutlet weak var imageAdd: CircleView!
+    @IBOutlet weak var captionField: FancyField!
     
     var posts = [Post]()
     var imagePicker:UIImagePickerController!
-    
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
+    var imageSelected = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
         imagePicker = UIImagePickerController()
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
+        captionField.delegate = self
         
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
         
@@ -92,7 +94,11 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             
             imageAdd.image = image
+            imageSelected = true
+            
         } else {
+            
+            imageSelected = false
             print("John: a vild image was not selected")
         }
         imagePicker.dismiss(animated: true, completion: nil)
@@ -103,6 +109,53 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
         present(imagePicker, animated: true, completion: nil)
     
     }
+    
+    @IBAction func postBtnTapped(_ sender: Any) {
+        
+        guard let caption = captionField.text, caption != "" else {
+            
+            print("John: Caption must be entered")
+            return
+        }
+        
+        guard let img = imageAdd.image, imageSelected == true else {
+            
+            print("John: An image must be selected")
+            return
+        }
+        
+        if let imgData = UIImageJPEGRepresentation(img, 0.2) {
+            
+            let imgUid = NSUUID().uuidString
+            let metadata = FIRStorageMetadata()
+            metadata.contentType = "image/jpeg"
+            DataService.ds.REF_POST_IMAGES.child(imgUid).put(imgData,metadata: metadata) { (metadata, error) in
+                
+                
+                if error != nil {
+                    
+                    print("John: Unable to upload to Firebase")
+                    
+                } else {
+                    
+                    print("John: Sucessfully uploaded image to Firebase")
+                    let downloadURL = metadata?.downloadURL()?.absoluteString
+                }
+            }
+            
+            
+            
+        }
+        
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
+    }
+    
     
     @IBAction func signOutTapped(_ sender: Any) {
         
