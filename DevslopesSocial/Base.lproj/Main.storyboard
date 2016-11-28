@@ -332,6 +332,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="caption" destination="XQH-1b-RRJ" id="vYL-Uh-FQK"/>
+                                            <outlet property="likeImg" destination="hyK-0C-tk2" id="VDg-Ym-yU5"/>
                                             <outlet property="likesLbl" destination="g0c-o8-9BW" id="T5I-vq-FpI"/>
                                             <outlet property="postImg" destination="gxp-n5-7IA" id="50R-uU-kco"/>
                                             <outlet property="profileImg" destination="MhZ-Ub-CRe" id="7Gj-rO-vEO"/>
@@ -373,7 +374,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1894" y="-258"/>
+            <point key="canvasLocation" x="-1553" y="-270"/>
         </scene>
     </scenes>
     <resources>
