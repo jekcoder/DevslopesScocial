@@ -12,6 +12,7 @@ import Firebase
 class Post {
     
     private var _caption:String!
+    private var _userName:String!
     private var _imageUrl:String!
     private var _likes:Int!
     private var _postKey:String!
@@ -20,6 +21,11 @@ class Post {
     var caption:String {
         
         return _caption
+    }
+
+    var userName:String {
+        
+        return _userName
     }
     
     var imageUrl:String {
@@ -51,6 +57,11 @@ class Post {
         if let caption = postData["caption"] {
             
             self._caption = caption as? String
+        }
+        
+        if let userName = postData["userName"] {
+            
+            self._userName = userName as? String
         }
         
         if let imageUrl = postData["imageUrl"] {

@@ -14,12 +14,16 @@ import SwiftKeychainWrapper
 
 
 class SignInVC: UIViewController, UITextFieldDelegate {
+    
 
+    
+    
     @IBOutlet weak var emailField: FancyField!
     
     @IBOutlet weak var pwdField: FancyField!
     
     var activeTextField = UITextField()
+    var name:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,14 +37,42 @@ class SignInVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         
+        
+        
         if let _ = KeychainWrapper.standard.string(forKey: KEY_UID) {
             
             performSegue(withIdentifier: "goToFeed", sender: nil)
             
         }
-
     }
 
+    func getName(id:String, userData: Dictionary<String, String>){
+        
+        
+        
+        
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: "Some Title", message: "Enter a text", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.text = "Some default text"
+        }
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            self.name = (textField?.text)!
+            self.completeSignIn(id: id,userData: userData)
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+        
+        
+    }
+    
+    
 
     @IBAction func facebookBtnTapped(_ sender: RoundButton) {
         
@@ -79,12 +111,16 @@ class SignInVC: UIViewController, UITextFieldDelegate {
                 
                 print("Successfully authentiction with Firebase")
                 if let user = user {
+                    print("ZUser ID = \(user.uid)")
                     let userData = ["provider": credential.provider]
-                    self.completeSignIn(id: user.uid,userData: userData)
+                   // self.completeSignIn(id: user.uid,userData: userData)
+                    self.getName(id: user.uid,userData: userData)
+                    
                 }
             }
         })
     }
+    
 
     @IBAction func signInTapped(_ sender: FancyButton) {
         
@@ -102,7 +138,10 @@ class SignInVC: UIViewController, UITextFieldDelegate {
                     if let user = user {
                         
                         let userData = ["provider": user.providerID]
-                        self.completeSignIn(id: user.uid, userData: userData )
+                        //self.completeSignIn(id: user.uid, userData: userData )
+                        self.getName(id: user.uid,userData: userData)
+                        
+                        
                     }
 
                     
@@ -119,7 +158,9 @@ class SignInVC: UIViewController, UITextFieldDelegate {
                             print("Successfull authentication with Firebase")
                             if let user = user {
                                 let userData = ["provider": user.providerID]
-                                self.completeSignIn(id: user.uid, userData: userData )
+                                //self.completeSignIn(id: user.uid, userData: userData )
+                                self.getName(id: user.uid,userData: userData)
+                                
                             }
                             
                         }
@@ -129,11 +170,12 @@ class SignInVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
     func completeSignIn(id:String, userData: Dictionary<String, String>) {
         
-        DataService.ds.createFirebaseDBUser(uid: id, userData: userData)
+        DataService.ds.createFirebaseDBUser(uid: id, userData: userData)        
         KeychainWrapper.standard.set(id, forKey:KEY_UID)
-        performSegue(withIdentifier: "goToFeed", sender: nil)        
+        performSegue(withIdentifier: "goToFeed", sender: nil)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

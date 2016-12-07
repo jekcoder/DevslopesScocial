@@ -18,6 +18,7 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
     @IBOutlet weak var captionField: FancyField!
     
     
+    
     var posts = [Post]()
     var imagePicker:UIImagePickerController!
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -170,6 +171,7 @@ class FeedVC: UIViewController, UITableViewDelegate,UITableViewDataSource, UIIma
         firebasePost.setValue(post)
         
         self.captionField.text = ""
+        
         self.imageSelected = false
         self.imageAdd.image = UIImage(named: "add-image")
         tableView.reloadData()
